@@ -1,1 +1,3 @@
-Զ�����Ӵ���.git ��������ɣ�
+﻿远程连接存在.git 里面神奇吧！
+
+这是我的远程库：git@github.com:condorheroblog/My-Second.git
