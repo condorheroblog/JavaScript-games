@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>忍者飞镖</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+	<style>
+		canvas{
+			position: relative;
+			left: 50%;
+			top:50%;
+		}
+	</style>
+</head>
+<body>
+	<canvas></canvas>
+	<!-- 背景音乐 -->
+	<audio src="./audio/loop.mp3" loop></audio>
+	<!-- 跑的时候点点，脚步碰地面声 -->
+	<audio src="./audio/run.mp3" loop></audio>
+	<!-- 点击跳跃时的声音 -->
+	<audio src="./audio/2jump.mp3"></audio>
+	<!-- binglin普通跳过障碍物 -->
+	<audio src="./audio/coin.mp3"></audio>
+	<!-- die时hit音乐 -->
+	<audio src="./audio/hit.mp3"></audio>
+	<!-- 插掉重新开始 -->
+	<audio src="./audio/level_failed.mp3"></audio>
+	<!-- 点击reset时候的音乐 -->
+	<audio src="./audio/click.mp3"></audio>
+	<script src="./js/Game.js"></script>
+	<script src="./js/Bg.js"></script>
+	<script src="./js/Tree.js"></script>
+	<script src="./js/Grass.js"></script>
+	<script src="./js/Hero.js"></script>
+	<script src="./js/Wall.js"></script>
+	<script src="./js/Diehero.js"></script>
+	<script src="./js/Startfood.js"></script>
+	<script src="./js/Startscore.js"></script>
+	<script src="./js/how-sheet.js"></script>
+	<script>
+		var game = new Game();
+		var ado = document.querySelectorAll("audio");
+	</script>
+</body>
+</html>

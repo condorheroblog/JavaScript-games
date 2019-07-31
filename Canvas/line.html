@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>canvas事件</title>
+    <style>
+        div {
+            width: 60px;
+            height: 60px;
+            background-color: #0f0;
+            margin:10px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</body>
+</html>
+<script src="./js/jquery-3.4.1.min.js"></script>
+<script>
+    // $("div").eq(0).animate({"left":"600px"},2000);
+    // $("div").eq(1).animate({"left":"600px"},2000);
+    // $("div").eq(2).animate({"left":"600px"},2000);
+    // $("div").eq(3).animate({"left":"600px"},2000);
+    // $("div").eq(0).animate({"left":"600px"},2000,function(){
+    //     $("div").eq(1).animate({"left":"600px"},2000,function(){
+    //         $("div").eq(2).animate({"left":"600px"},2000,function(){
+    //             $("div").eq(3).animate({"left":"600px"},2000);
+    //         });
+    //     });
+    // });
+    // function move(number){
+    //     return new Promise(function(resolve,reject){
+    //         // 注意这里的 resolve 函数，是作为回调函数调用的
+    //         $("div").eq(number).animate({"left":"600px"},2000,resolve);
+    //     });
+    // }
+    // move(0).then(function(){
+    //     move(1).then(function(){
+    //         move(2).then(function(){
+    //             move(3).then(function(){});
+    //         });
+    //     });
+    // });
+    // function dong(number){
+    //     return new Promise(function(resolve,reject){
+    //         // 注意这里的 resolve 函数，是作为回调函数调用的
+    //         $("div").eq(number).animate({"left":"600px"},2000,resolve);
+    //     });
+    // }
+    // function* move(){
+    //     yield dong(0);
+    //     yield dong(1);
+    //     yield dong(2);
+    //     yield dong(3);
+    // }
+    // var move = move();
+    // var res = move.next();
+    // res.value.then(function(){
+    //     res = move.next();
+    //     res.value.then(function(){
+    //         res = move.next();
+    //         res.value.then(function(){
+    //             res = move.next();
+    //         });
+    //     });
+    // });
+    function move(number){
+        return new Promise(function(resolve,reject){
+            $("div").eq(number).animate({"left":"600px"},2000,resolve);
+        });
+    }
+    async function* main(){
+        yield move(0);
+        yield move(1);
+        yield move(2);
+        yield move(3);
+    }
+    var g = main();
+    g.next();
+    g.next();
+    g.next();
+    g.next();
+</script>
