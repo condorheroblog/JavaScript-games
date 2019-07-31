@@ -47,3 +47,6 @@ Running Ninja : http://flash.7k7k.com/cms/cms10/20171212/1002107071/2/games/Runn
 - particle.html 是网站常见的动态粒子连线
 
 另外，images 里面的图片没有用完，只用了部分，除了这些其他文件均是有用的。
+
+游戏效果：
+![图片是动图所以听不见声音，真实是有音效的](https://upload-images.jianshu.io/upload_images/16069544-2f22540ba3b0bc38.gif?imageMogr2/auto-orient/strip)
