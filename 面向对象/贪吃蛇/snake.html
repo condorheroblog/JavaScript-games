@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>贪吃蛇</title>
+	<style>
+		table{
+			margin: 10px auto;
+			border-collapse: collapse;
+		}
+		td{
+			width: 25px;
+			height: 25px;
+			line-height: 25px;
+			text-align: center;
+			border: 1px solid #456;
+		}
+		div{
+			width: 550px;
+			margin: 0 auto;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		得分：<span></span><br />
+		历史最高分：<span></span>
+	</div>
+    <audio src="./audio/bg.mp3" autoplay loop></audio>
+    <audio src="./audio/cameover.mp3"></audio>
+    <audio src="./audio/food.mp3"></audio>
+	<script>
+		let span = document.getElementsByTagName("span");
+		let music = document.getElementsByTagName("audio");
+		let otable = document.createElement("table");
+		for(let i = 0;i < 20;i++){
+			let otr = document.createElement("tr");
+			for(let j = 0;j < 20;j++){
+				let otd = document.createElement("td");
+				otr.appendChild(otd);
+			}
+			otable.appendChild(otr);
+		}
+		document.body.appendChild(otable);
+		let direction = "right",interval = 500,score = 0,highScore = 0;
+		span[0].innerHTML = score;
+		span[1].innerHTML = sessionStorage.getItem("highScore");
+		let tr = document.getElementsByTagName("tr");
+		let td = document.getElementsByTagName("td");
+
+		let snakeArr = [
+			{"row" : 2,"col" : 6,"color":"rgb(11,22,33)"},
+			{"row" : 2,"col" : 5,"color":"rgb(99,33,44)"},
+			{"row" : 2,"col" : 4,"color":"rgb(88,99,22)"},
+		];
+
+		function renderSnake(snakeArr){
+			for( let k = 0;k < snakeArr.length;k++){
+				setColor(snakeArr[k]["row"],snakeArr[k]["col"],snakeArr[k]["color"]);
+			};
+			for( let k = 1;k < snakeArr.length;k++){
+                if(snakeArr[0].row == snakeArr[k].row && snakeArr[0].col == snakeArr[k].col){
+            		clearTimeout(timer);
+            		alert("CAME OVER!");
+                };
+            };
+		};
+		function setColor(row,col,color){
+			tr[row].getElementsByTagName("td")[col].style.backgroundColor = color;
+		};
+		renderSnake(snakeArr);
+
+		function clear(){
+			for(let i = 0;i < 20;i++){
+				for(let j = 0;j < 20;j++){
+					tr[i].getElementsByTagName("td")[j].style.backgroundColor = "white";
+				}
+			}
+		};
+
+		document.onkeydown = function(event){
+			if(direction !== "right" && event.keyCode == 37){
+				direction = "left";
+			}else if(direction !== "down" && event.keyCode == 38){
+				direction = "up";
+			}else if(direction !== "left" && event.keyCode == 39){
+				direction = "right";
+			}else if(direction !== "up" && event.keyCode == 40){
+				direction = "down";
+			};
+			if(direction !== "right" && event.keyCode == 65){
+				direction = "left";
+			}else if(direction !== "down" && event.keyCode == 87){
+				direction = "up";
+			}else if(direction !== "left" && event.keyCode == 68){
+				direction = "right";
+			}else if(direction !== "up" && event.keyCode == 83){
+				direction = "down";
+			};
+		};
+
+		document.onkeypress = function(){
+			interval -= 100;
+			if(interval < 50){
+				interval = 50;
+			}
+		};
+
+		document.onkeyup = function(){
+			interval = 500;
+		};
+
+	    function die(){
+            music[0].pause();
+            music[1].play();
+            clearTimeout(timer);
+            alert("CAME OVER!");
+            renderSnake(snakeArr);
+        }
+		let timer = setTimeout(function timers(){
+			clear();
+			let color = `rgb(${~~(Math.random()*256)},${~~(Math.random()*256)},${~~(Math.random()*256)})`;
+			if(direction === "right"){
+                if(snakeArr[0].col + 1 > 19){
+                    die();
+                    return;
+                };
+				snakeArr.unshift({
+					"row"  : snakeArr[0]["row"],
+					"col"  : snakeArr[0]["col"] + 1,
+					"color": color
+				});
+			}else if(direction === "left"){
+                if(snakeArr[0].col - 1 < 0){
+                    die();
+                    return;
+                };
+				snakeArr.unshift({
+					"row"  : snakeArr[0]["row"],
+					"col"  : snakeArr[0]["col"] - 1,
+					"color": color
+				});
+			}else if(direction === "up"){
+				if(snakeArr[0].row - 1 < 0){
+                    die();
+                    return;
+                };
+				snakeArr.unshift({
+					"row"  : snakeArr[0]["row"] - 1,
+					"col"  : snakeArr[0]["col"],
+					"color": color
+				});
+			}else if(direction === "down"){
+				if(snakeArr[0].row + 1 > 19){
+                    die();
+                    return;
+                };
+				snakeArr.unshift({
+					"row"  : snakeArr[0]["row"] + 1,
+					"col"  : snakeArr[0]["col"],
+					"color": color
+				});
+			};
+
+			if(tr[snakeArr[0]["row"]].getElementsByTagName("td")[snakeArr[0]["col"]].innerHTML === "☆"){
+				music[2].play();
+				snakeFood();
+				span[0].innerHTML = score += 1;
+				if(sessionStorage.getItem("highScore") <= score){
+					highScore = score;
+					sessionStorage.setItem("highScore",highScore);
+				};
+				span[1].innerHTML = sessionStorage.getItem("highScore");
+			}else{
+				snakeArr.pop();
+			};
+
+			renderSnake(snakeArr);
+			setTimeout(timers,interval)
+		},interval);
+
+        function snakeFood(){
+        	for(let i = 0;i < 20; i++){
+                for (let j = 0; j < 20; j++){
+                    tr[i].getElementsByTagName("td")[j].innerHTML = "";
+                };
+            };
+
+            do{ 
+                var lock = false;
+                var x = parseInt(Math.random()*20);
+                var y = parseInt(Math.random()*20);
+                for(let i = 0;i < snakeArr.length;i++){
+                    if(snakeArr[i].row === x && snakeArr[i].col === y){
+                        lock = true;
+                    };
+                };
+            }while(lock);
+            tr[x].getElementsByTagName("td")[y].innerHTML = "☆";
+        }
+        snakeFood();
+	</script>
+</body>
+</html>
